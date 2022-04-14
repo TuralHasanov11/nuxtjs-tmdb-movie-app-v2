@@ -9,6 +9,16 @@
                 <div class="show-content">
                     <h1>Name: {{ show.name }}</h1>
                     <h2>Original name: <em>"{{ show.original_name }}"</em></h2>
+                    <h4>
+                        <button class="btn btn-secondary">
+                            <i class="bi bi-plus-lg"></i>
+                            <span>Add to</span> Watchlist
+                        </button>
+                        <button class="btn bg-main btn-danger">
+                            <i class="bi bi-plus-lg"></i>
+                            <span>In</span> Watchlist
+                        </button>
+                    </h4>
                     <p class="show-fact tagline">
                         <span class="text-main">Tagline:</span> "{{ show.tagline }}"
                     </p>

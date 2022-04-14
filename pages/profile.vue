@@ -7,7 +7,8 @@
 <script>
 export default {
     name: 'ProfilePage',
-
+    middleware: 'authenticated',
+    
     layout:'default',
 
     head:{

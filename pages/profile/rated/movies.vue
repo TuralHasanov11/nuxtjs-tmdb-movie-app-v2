@@ -1,6 +1,16 @@
 <template>
   <div id="ratedMovies" class="ratedMovies">
-      
+       <Loading v-if="$fetchState.pending"></Loading>
+
+        <div v-else class="container movies">
+            <div v-if="moviesUpComing.hasOwnProperty('results')" class="my-5 mx-2">
+                <h2 class="text-light my-5">Your Ratings</h2>
+                
+                <Movies :movies="moviesUpComing.results"/>
+                <Pagination class="my-5" pageName='movies-up-coming' :page="$route.query.page" :totalPages="moviesUpComing.total_pages" />
+            </div>
+
+        </div>
   </div>
 </template>
 

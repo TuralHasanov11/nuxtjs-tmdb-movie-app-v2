@@ -1,14 +1,12 @@
-import axios from 'axios'
 
 export const state = () => ({
     user:'',
-    // isAuthenticated:this.$auth.is,
-    sessionId:null,
     profile:{},
     watchlistMovies:{},
     watchlistTvShows:{},
     ratedMovies:{},
     ratedTvShows:{},
+    // {"avatar":{"gravatar":{"hash":"8f9e6d35026566e5e87646f5e6b5120d"},"tmdb":{"avatar_path":null}},"id":11815292,"iso_639_1":"en","iso_3166_1":"AZ","name":"","include_adult":false,"username":"turalhasanov"}
 })
   
 export const mutations = {
@@ -49,24 +47,38 @@ export const mutations = {
 
 export const actions = {
 
-    // async createRequestTokenAndSession({commit, rootState }){
-    //     const requestToken = await this.$axios.$get(`authentication/token/new?api_key=${rootState.apiKey}`)
-    //     window.open(`https://www.themoviedb.org/authenticate/${requestToken}?redirect_to=http://www.yourapp.com/approved`, '_blank').focus();
+    async createRequestTokenAndSession({commit, rootState }){
 
-    //     try {
-    //         const sessionData = await this.$axios.$post(`authentication/session/new?api_key=${rootState.apiKey}`,{
-    //             request_token: requestToken
-    //         })
+        const requestToken = await this.$axios.$post(`https://api.themoviedb.org/4/auth/request_token`,{
+            redirect_to:"http://localhost:3000/approved"
+        },{
+            "headers": {
+                "content-type": "application/json;charset=utf-8",
+                "authorization": `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0Yjc5NTgzNWUxNzNmOTNiMDE5ODdiMjc1Nzk4MGRhNSIsInN1YiI6IjYxZWU5OTFkOWU0NTg2MDEwNzMwN2FhMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.OGiw669SoQAu6kK8N43Vp3H0Zzo_rFpax83gX9KZPlQ`
+            },
+        })
+        localStorage.setItem('tmdb_request_token', requestToken.request_token)
+        window.location.replace(`https://www.themoviedb.org/auth/access?request_token=${requestToken.request_token}&redirect_to=http://localhost:3000/approved`)
+    },
+
+
+    async logout({commit, rootState }){
+        try {
+            const res = await this.$axios.$delete(`authentication/session?api_key=${rootState.apiKey}`,{
+                session_id:  this.$auth.$storage.getState('tmdb_session_id')
+            })
+
+            if(res.success){
+                localStorage.removeItem('tmdb_session_id')
+                this.$auth.$storage.removeLocalStorage('tmdb_session_id')
+                commit('setSessionId', '')
+                // window.location.replace('/')
+            }
             
-    //         const res = await this.$axios.$post(`app/api/account/tmdb-session`,{
-    //             sessionId:sessionData.session_id
-    //         })
-
-    //         commit('setSessionId', sessionData.session_id)
-    //     } catch (error) {
-    //         return new Error('Session ID Failed!')
-    //     }
-    // },
+        } catch (error) {
+            throw new Error('Session ID delete Failed!')
+        }
+    },
 
     async getProfile({commit, rootState }){
         const res = await this.$axios.$get(`account?api_key=${rootState.apiKey}`)

@@ -4,6 +4,7 @@
         <div class="movie-img">
             <img :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" alt="">
             <p class="review">{{movie.vote_average}}</p>
+            <span class="watchlist-toggle active" data-bs-toggle="tooltip" data-bs-placement="top" title="Add to Watchlist"><i class="bi bi-plus-lg"></i></span>
             <p v-if="movie.overview!==''" class="overview">{{movie.overview}}</p>
         </div>
         <div class="info">
@@ -82,14 +83,39 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 40px;
-    height: 40px;
+    width: 2.5em;
+    height: 2.5em;
     background-color: #c92502;
     color: #fff;
-    border-radius: 0 0 16px 0;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-      0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border-radius: 0 0 1em 0;
+    box-shadow: 0 0.25em 0.4em -0.1em rgba(0, 0, 0, 0.1),
+      0 0.2em 0.25em -0.1em rgba(0, 0, 0, 0.06);
   }
+
+.movie .movie-img .watchlist-toggle{
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2.5em;
+    height: 2.5em;
+    border-radius: 0 0 0 1em;
+    color: #fff;
+    background-color: rgb(77, 77, 77);
+    box-shadow: 0 0.25em 0.4em -0.1em rgba(0, 0, 0, 0.1),
+      0 0.2em 0.25em -0.1em rgba(0, 0, 0, 0.06);
+  }
+
+  
+.movie .movie-img .watchlist-toggle i{
+    font-size: 1.2em;
+  }
+.movie .movie-img .watchlist-toggle.active {
+  background-color: #c92502;
+}
   
 .movie .movie-img .overview {
     line-height: 1.5;

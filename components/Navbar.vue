@@ -73,10 +73,63 @@
                 </li>
 
             </ul>
-            <ul class="navbar-nav mb-2 mb-lg-0">
-                <!-- <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#">Watchlist</a>
-                </li> -->
+            <ul class="navbar-nav mb-2 mb-lg-0 mx-2">
+                <template v-if="$auth.user">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="watclistDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-bookmark-plus-fill"></i> Watchlist
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="watclistDropdown">
+                            <li>
+                                <NuxtLink :to="{name:'profile-watchlist-movies'}" class="dropdown-item" no-prefetch :class="{'active':$router.name==='profile-watchlist-movies'}" :aria-current="{'page':$router.name==='profile-watchlist-movies'}">
+                                    Movies
+                                </NuxtLink>
+                            </li>
+                            <li>
+                                <NuxtLink :to="{name:'profile-watchlist-tv-shows'}" class="dropdown-item" no-prefetch :class="{'active':$router.name==='profile-watchlist-tv-shows'}" :aria-current="{'page':$router.name==='profile-watchlist-tv-shows'}">
+                                    TV Shows
+                                </NuxtLink>
+                            </li>
+                        </ul>
+                    </li>
+                
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{$auth.user.username}}
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                            <li>
+                                <NuxtLink :to="{name:'profile-watchlist-movies'}" class="dropdown-item" no-prefetch :class="{'active':$router.name==='profile-watchlist-movies'}" :aria-current="{'page':$router.name==='profile-watchlist-movies'}">
+                                    Watchlist Movies
+                                </NuxtLink>
+                            </li>
+                            <li>
+                                <NuxtLink :to="{name:'profile-watchlist-tv-shows'}" class="dropdown-item" no-prefetch :class="{'active':$router.name==='profile-watchlist-tv-shows'}" :aria-current="{'page':$router.name==='profile-watchlist-tv-shows'}">
+                                    Watchlist TV Shows
+                                </NuxtLink>
+                            </li>
+                            <li>
+                                <NuxtLink :to="{name:'profile-rated-movies'}" class="dropdown-item" no-prefetch :class="{'active':$router.name==='profile-rated-movies'}" :aria-current="{'page':$router.name==='profile-rated-movies'}">
+                                    Rated Movies
+                                </NuxtLink>
+                            </li>
+                            <li>
+                                <NuxtLink :to="{name:'profile-rated-tv-shows'}" class="dropdown-item" no-prefetch :class="{'active':$router.name==='profile-rated-tv-shows'}" :aria-current="{'page':$router.name==='profile-rated-tv-shows'}">
+                                    Rated TV Shows
+                                </NuxtLink>
+                            </li>
+                            <li>
+                                <div class="dropdown-item">
+                                    <button class="btn btn-danger" @click="logout">Sign out</button>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </template>
+                <li v-else class="nav-item">
+                   
+                    <button class="btn btn-danger" @click="login">Login</button>
+                </li>
             </ul>
             <form @submit.prevent="searchData" class="d-flex">
                 <input v-model.lazy="search" @keyup.enter="searchData" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -101,6 +154,14 @@ export default {
     methods:{
         searchData(){
             this.$router.push({name:'search', query:{search:this.search}})
+        },
+
+        async login(){
+            await this.$store.dispatch('user/createRequestTokenAndSession')
+        },
+
+        async logout(){
+            await this.$store.dispatch('user/logout')
         }
     }
 }

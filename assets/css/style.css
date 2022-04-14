@@ -5,6 +5,10 @@
   --colorPrimary:#e02900;
 }
 
+.bg-main{
+  background-color: var(--colorSecondary);
+}
+
 * {
   margin: 0;
   padding: 0;

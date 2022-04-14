@@ -16,24 +16,30 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       // {
       //   rel: 'stylesheet',
-      //   href: 'https://fonts.googleapis.com/css?family=Roboto&display=swap'
+      //   href: 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3',
+      //   crossorigin:"anonymous"
       // }
     ],
      
-    // script: [
-    //   {
-    //     src: 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'
-    //   }
-    // ],
+    script: [
+      // {
+      //   src: 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p',
+      //   crossorigin:"anonymous"
+      // }
+    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    "~/node_modules/bootstrap/dist/css/bootstrap.min.css",
+    "~/node_modules/bootstrap-icons/font/bootstrap-icons.css",
     '@/assets/css/style.css'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [
+    { src: "~/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js", mode: "client" }
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -48,35 +54,48 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    '@nuxtjs/auth-next'
+    '@nuxtjs/auth-next',
+    // 'bootstrap-vue/nuxt'
   ],
 
 
   auth: {
+    localStorage: {
+      prefix: 'auth.'
+    },
     strategies: {
-      local: {
+      
+
+      customStrategy: {
+        scheme: '~/schemes/customScheme',
         token: {
           property: 'access_token',
           global: true,
-          // required: true,
-          // type: 'Bearer'
+          required: true,
         },
         user: {
-          property: 'user',
-          // autoFetch: true
+          property: false,
+          autoFetch: true,
         },
         endpoints: {
-          login: { url: '/api/auth/login', method: 'post' },
-          logout: { url: '/api/auth/logout', method: 'post' },
-          user: { url: '/api/auth/user', method: 'get' }
+          login: { 
+            url: `https://api.themoviedb.org/4/auth/access_token`, 
+            method:'post', 
+            headers: { 
+              'Content-Type': 'application/json', 
+              "Authorization": `Bearer ${process.env.TMDB_ACCESS_TOKEN}`
+            } 
+          },
+          logout: { url: `https://api.themoviedb.org/4/auth/access_token`, method: 'delete' },
+          user: { url: `/account?api_key=${process.env.TMDB_API_KEY}&session_id=ee821312d44768b3ba29d9a57c19d86a2706140d`, method: 'get' }
+        },
+        redirect: {
+          login: '/login',
+          logout: '/',
+          callback: '/login',
+          home: '/'
         }
-      },
-      github: { /* ... */ },
-      // custom: { scheme: '~/schemes/customStrategy', /* ... */ },
-      // customStrategy: {
-      //   scheme: '~/schemes/customScheme',
-      //   /* ... */
-      // }
+      }
     }
   },
 

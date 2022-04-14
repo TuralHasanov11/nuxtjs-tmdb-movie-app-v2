@@ -12,6 +12,16 @@
                 <div class="movie-content">
                     <h1>Title: {{ movie.title }}</h1>
                     <h2>Original title: <em>"{{ movie.original_title }}"</em></h2>
+                    <h4>
+                        <button class="btn btn-secondary">
+                            <i class="bi bi-plus-lg"></i>
+                            <span>Add to</span> Watchlist
+                        </button>
+                        <button class="btn bg-main btn-danger">
+                            <i class="bi bi-plus-lg"></i>
+                            <span>In</span> Watchlist
+                        </button>
+                    </h4>
                     <p class="movie-fact tagline">
                         <span class="text-main" >Tagline:</span> "{{ movie.tagline }}"
                     </p>
