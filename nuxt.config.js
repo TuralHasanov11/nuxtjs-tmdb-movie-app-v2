@@ -87,7 +87,7 @@ export default {
             } 
           },
           logout: { url: `https://api.themoviedb.org/4/auth/access_token`, method: 'delete' },
-          user: { url: `/account?api_key=${process.env.TMDB_API_KEY}&session_id=ee821312d44768b3ba29d9a57c19d86a2706140d`, method: 'get' }
+          user: { url: `/account?api_key=${process.env.TMDB_API_KEY}`, method: 'get' }
         },
         redirect: {
           login: '/login',

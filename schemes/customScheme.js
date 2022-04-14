@@ -13,8 +13,8 @@ export default class CustomScheme extends LocalScheme {
     }
 
     // const endPointUser = {...this.options.endpoints.user, url:this.options.endpoints.user.url+`&session_id=${localStorage.getItem('auth.tmdb_session_id')}`}
-
-    return await this.$auth.requestWith(this.name, endpoint, this.options.endpoints.user)
+    // console.log(this.options.endpoints.user.url+localStorage.getItem('tmdb_session_id'), )
+    return await this.$auth.requestWith(this.name, endpoint, {...this.options.endpoints.user, url:`${this.options.endpoints.user.url}&session_id=${localStorage.getItem('tmdb_session_id')}`})
       .then((response) => {
 
         this.$auth.setUser(response.data)

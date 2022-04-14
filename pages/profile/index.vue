@@ -13,7 +13,7 @@
               </div>
               <div class="profile-content">
                   <h1>{{ $auth.user.username }}</h1>
-                  <h2><em>{{ $auth.user?.name }}</em></h2>
+                  <!-- <h2><em>{{ $auth.user?.name }}</em></h2> -->
                   <h4 v-if="$auth.user.include_adult">
                      <span class="text-main" >Adult Content included</span>
                   </h4>
