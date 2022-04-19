@@ -3,11 +3,11 @@
        <Loading v-if="$fetchState.pending"></Loading>
 
         <div v-else class="container movies">
-            <div v-if="moviesUpComing.hasOwnProperty('results')" class="my-5 mx-2">
-                <h2 class="text-light my-5">Your Ratings</h2>
+            <div v-if="movies.hasOwnProperty('results')" class="my-5 mx-2">
+                <h2 class="text-light my-5">Your Ratings - Movies</h2>
                 
-                <Movies :movies="moviesUpComing.results"/>
-                <Pagination class="my-5" pageName='movies-up-coming' :page="$route.query.page" :totalPages="moviesUpComing.total_pages" />
+                <Movies :movies="movies.results"/>
+                <Pagination class="my-5" pageName='profile-rated-movies' :page="$route.query.page" :totalPages="movies.total_pages" />
             </div>
 
         </div>
@@ -20,7 +20,7 @@ export default {
     layout:'default',
     // middleware: 'auth',
     async fetch() {
-        await this.$store.dispatch("auth/getRatedMovies", this.$route.query.page)
+        await this.$store.dispatch("user/getRatedMovies", this.$route.query.page)
     },
     
     watch: {
@@ -49,7 +49,7 @@ export default {
 
     computed:{
         movies(){
-            return $store.getters['auth/ratedMovies']
+            return this.$store.getters['user/ratedMovies']
         }
     }
 }

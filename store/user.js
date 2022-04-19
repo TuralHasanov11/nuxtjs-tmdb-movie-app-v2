@@ -10,9 +10,6 @@ export const state = () => ({
 })
   
 export const mutations = {
-    setSessionId(state, data){
-        state.sessionId = data
-    },
 
     setProfile(state, data){
         state.profile = data
@@ -86,21 +83,21 @@ export const actions = {
     },
 
     async getWatchlistMovies({state, commit, rootState }, page=1, sortBy='created_at.desc'){
-        const res = await this.$axios.$get(`account/${state.user.tmdb_id}/watchlist/movies?api_key=${rootState.apiKey}&session_id=${state.sessionId}&language=en-US&sort_by=${sortBy}&page=${page}`)
+        const res = await this.$axios.$get(`account/${this.$auth.user.id}/watchlist/movies?api_key=${rootState.apiKey}&session_id=${this.$auth.$storage.getLocalStorage('tmdb_session_id')}&language=en-US&sort_by=${sortBy}&page=${page}`)
         commit('setWatchlistMovies', res)
     },
 
     async getWatchlistTvShows({state, commit, rootState }, page=1, sortBy='created_at.desc'){
-        const res = await this.$axios.$get(`account/${state.user.tmdb_id}/watchlist/tv?api_key=${rootState.apiKey}&session_id=${state.sessionId}&language=en-US&sort_by=${sortBy}&page=${page}`)
+        const res = await this.$axios.$get(`account/${this.$auth.user.id}/watchlist/tv?api_key=${rootState.apiKey}&session_id=${this.$auth.$storage.getLocalStorage('tmdb_session_id')}&language=en-US&sort_by=${sortBy}&page=${page}`)
         commit('setWatchlistTvShows', res)
     },
 
-    async addToWatchlist({state, commit, rootState }, media, type='movie'){ // type = movie, tv
+    async addToWatchlist({state, commit, rootState }, media, watchlist=true, type='movie'){ // type = movie, tv
         try {
-            const res = await this.$axios.$post(`account/${state.user.tmdb_id}/watchlist?api_key=${rootState.apiKey}`,{
+            const res = await this.$axios.$post(`account/${this.$auth.user.id}/watchlist?api_key=${rootState.apiKey}`,{
                 media_type: type,
                 media_id: media.id,
-                watchlist: true
+                watchlist
             })
 
             console.log(res)
@@ -113,12 +110,12 @@ export const actions = {
     },
 
     async getRatedMovies({state, commit, rootState }, page=1, sortBy='created_at.desc'){
-        const res = await this.$axios.$get(`account/${state.user.tmdb_id}/rated/movies?api_key=${rootState.apiKey}&session_id=${state.sessionId}&language=en-US&sort_by=${sortBy}&page=${page}`)
+        const res = await this.$axios.$get(`account/${this.$auth.user.id}/rated/movies?api_key=${rootState.apiKey}&session_id=${this.$auth.$storage.getLocalStorage('tmdb_session_id')}&language=en-US&sort_by=${sortBy}&page=${page}`)
         commit('setRatedMovies', res)
     },
 
     async getRatedTvShows({state, commit, rootState }, page=1, sortBy='created_at.desc'){
-        const res = await this.$axios.$get(`account/${state.user.tmdb_id}/rated/tv?api_key=${rootState.apiKey}&session_id=${state.sessionId}&language=en-US&sort_by=${sortBy}&page=${page}`)
+        const res = await this.$axios.$get(`account/${this.$auth.user.id}/rated/tv?api_key=${rootState.apiKey}&session_id=${this.$auth.$storage.getLocalStorage('tmdb_session_id')}&language=en-US&sort_by=${sortBy}&page=${page}`)
         commit('setRatedTvShows', res)
     },
 }
@@ -128,5 +125,11 @@ export const getters = {
     watchlistMovies:s=>s.watchlistMovies,
     watchlistTvShows:s=>s.watchlistTvShows,
     ratedMovies:s=>s.ratedMovies,
-    ratedTvShows:s=>s.ratedTvShows
+    ratedTvShows:s=>s.ratedTvShows,
+    watchlistMoviesIds(s){
+        return s.watchlistMovies.results?s.watchlistMovies.results.map(el => el.id):[]
+    },
+    watchlistTvShowsIds(s){
+        return s.watchlistTvShows.results?s.watchlistTvShows.results.map(el => el.id):[]
+    }
 }

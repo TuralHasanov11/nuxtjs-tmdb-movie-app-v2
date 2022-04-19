@@ -1,6 +1,16 @@
 <template>
   <div id="watchlistMovies" class="watchlistMovies">
-      
+      <Loading v-if="$fetchState.pending"></Loading>
+
+        <div v-else class="container movies">
+            <div v-if="movies.hasOwnProperty('results')" class="my-5 mx-2">
+                <h2 class="text-light my-5">Your Watchlist - Movies</h2>
+                
+                <Movies :movies="movies.results"/>
+                <Pagination class="my-5" pageName='profile-watchlist-movies' :page="$route.query.page" :totalPages="movies.total_pages" />
+            </div>
+
+        </div>
   </div>
 </template>
 
@@ -10,7 +20,7 @@ export default {
     layout:'default',
     // middleware: 'auth',
     async fetch() {
-        await this.$store.dispatch("auth/getWatchlistMovies", this.$route.query.page)
+        await this.$store.dispatch("user/getWatchlistMovies", this.$route.query.page)
     },
     
     watch: {
@@ -39,7 +49,7 @@ export default {
 
     computed:{
         movies(){
-            return $store.getters['auth/watchlistMovies']
+            return this.$store.getters['user/watchlistMovies']
         }
     }
 }

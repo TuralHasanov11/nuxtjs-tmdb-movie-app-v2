@@ -10,6 +10,7 @@
 export default {
     name: 'LoginPage',
     layout:'default',
+    middleware:'guest_user',
 
     methods:{
         async login(){

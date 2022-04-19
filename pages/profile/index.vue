@@ -40,9 +40,9 @@ export default {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: 32px 16px;
- 
+  justify-content: start; 
+  align-items: center;
+    padding: 2em 1em;
 }
 
 .profile-area  .button {
@@ -84,8 +84,12 @@ export default {
 
 
 .profile-area .profile-info .profile-img img{
-  max-width: 2em;
-  max-height: 2em;
+  width: 3em;
+  height: 3em;
+}
+
+.profile-area .profile-info .profile-img i{
+  font-size: 3em;
 }
 
 .movie-fact .badge{

@@ -4,7 +4,10 @@
         <div class="movie-img">
             <img :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" alt="">
             <p class="review">{{movie.vote_average}}</p>
-            <span class="watchlist-toggle active" data-bs-toggle="tooltip" data-bs-placement="top" title="Add to Watchlist"><i class="bi bi-plus-lg"></i></span>
+            <span class="user-movie-info">
+              <span class="watchlist-toggle" :class="{active:watchlistMoviesIds.includes(movie.id)}" @click="watchlistToggle(movie.id)" data-bs-toggle="tooltip" data-bs-placement="top" title="Add to Watchlist"><i class="bi bi-plus-lg"></i></span>
+              <span v-if="movie.rating" style="border-radius: 0 0 0 1em;" class="rating-toggle border-top border-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Your rating"><span class="mr-1">{{movie.rating}}</span> <i class="bi bi-star-fill"></i></span>
+            </span>
             <p v-if="movie.overview!==''" class="overview">{{movie.overview}}</p>
         </div>
         <div class="info">
@@ -33,7 +36,19 @@
 <script>
 export default {
     name:'Movies',
-    props:['movies']
+    props:['movies'],
+
+    computed:{
+      watchlistMoviesIds(){
+         return this.$store.getters["user/watchlistMoviesIds"];
+      }
+    },
+
+    methods:{
+      watchlistToggle(movie){
+        this.$store.dispatch("user/addToWatchlist", movie, this.watchlistMoviesIds.includes(movie.id))
+      }
+    }
 }
 </script>
 
@@ -92,21 +107,26 @@ export default {
       0 0.2em 0.25em -0.1em rgba(0, 0, 0, 0.06);
   }
 
-.movie .movie-img .watchlist-toggle{
-    cursor: pointer;
-    position: absolute;
-    top: 0;
-    right: 0;
+.movie .movie-img .user-movie-info{
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.movie .movie-img .watchlist-toggle, .movie .movie-img .rating-toggle{
     display: flex;
     justify-content: center;
     align-items: center;
     width: 2.5em;
     height: 2.5em;
-    border-radius: 0 0 0 1em;
     color: #fff;
     background-color: rgb(77, 77, 77);
     box-shadow: 0 0.25em 0.4em -0.1em rgba(0, 0, 0, 0.1),
       0 0.2em 0.25em -0.1em rgba(0, 0, 0, 0.06);
+  }
+.movie .movie-img .rating-toggle{
+    background-color: rgb(0, 71, 146);
   }
 
   

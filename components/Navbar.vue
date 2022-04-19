@@ -99,6 +99,11 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="userDropdown">
                             <li>
+                                <NuxtLink :to="{name:'profile'}" class="dropdown-item" no-prefetch :class="{'active':$router.name==='profile'}" :aria-current="{'page':$router.name==='profile'}">
+                                    Profile
+                                </NuxtLink>
+                            </li>
+                            <li>
                                 <NuxtLink :to="{name:'profile-watchlist-movies'}" class="dropdown-item" no-prefetch :class="{'active':$router.name==='profile-watchlist-movies'}" :aria-current="{'page':$router.name==='profile-watchlist-movies'}">
                                     Watchlist Movies
                                 </NuxtLink>
