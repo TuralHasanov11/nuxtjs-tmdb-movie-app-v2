@@ -8,7 +8,7 @@
       <div v-if="moviesUpComing.hasOwnProperty('results')" class="my-5 mx-2">
         <h2 class="text-light my-5">Up Coming Movies</h2>
         <Movies :movies="moviesUpComing.results"/>
-        <Pagination class="my-5" pageName='movies-up-coming' :page="$route.query.page" :totalPages="moviesUpComing.total_pages" />
+        <Pagination class="my-5" page-name='movies-up-coming' :page="$route.query.page" :total-pages="moviesUpComing.total_pages" />
       </div>
 
     </div>
@@ -19,25 +19,11 @@
 
 export default {
     name: "MoviesUpComingPage",
+
+    scrollToTop: true,
     async fetch() {
         await this.$store.dispatch("movies/getUpComing", this.$route.query.page)
     },
-
-    // watchQuery(newQuery, oldQuery) {
-    //     setTimeout(() => {
-    //         this.$fetch()
-    //         window.scrollTo(0,0)
-    //     }, 100);
-    //     return newQuery.page && oldQuery.page
-    // },
-
-    watch: {
-        '$route.query': '$fetch'
-    },
-
-    scrollToTop: true,
-
-    fetchDelay: 1000,
     head() {
         return {
             title: "Movie App - Up Coming Movies",
@@ -60,6 +46,20 @@ export default {
             return this.$store.getters["movies/upComing"];
         },
     },
+
+    // watchQuery(newQuery, oldQuery) {
+    //     setTimeout(() => {
+    //         this.$fetch()
+    //         window.scrollTo(0,0)
+    //     }, 100);
+    //     return newQuery.page && oldQuery.page
+    // },
+
+    watch: {
+        '$route.query': '$fetch'
+    },
+
+    fetchDelay: 1000,
 }
 </script>
 

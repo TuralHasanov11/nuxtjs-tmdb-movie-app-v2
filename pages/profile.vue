@@ -7,9 +7,9 @@
 <script>
 export default {
     name: 'ProfilePage',
-    middleware: 'authenticated',
     
     layout:'default',
+    middleware: 'authenticated',
 
     head:{
         titleTemplate: 'Profile - %s',

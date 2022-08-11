@@ -6,7 +6,7 @@
             <div v-if="shows.hasOwnProperty('results')" class="my-5 mx-2">
                 <h2 class="text-light my-5">Your Watchlist - TV Shows</h2>
                 <TVShows :shows="shows.results"/>
-                <Pagination class="my-5" pageName='profile-watchlist-tv-shows' :page="$route.query.page" :totalPages="shows.total_pages" />
+                <Pagination class="my-5" page-name='profile-watchlist-tv-shows' :page="$route.query.page" :total-pages="shows.total_pages" />
             </div>
         </div>
   </div>
@@ -16,16 +16,13 @@
 import TVShows from "@/components/tv/TVShows.vue"
 export default {
     name: "ProfileWatchlistTvShowsPage",
+    components: { TVShows },
     layout: "default",
+    scrollToTop: true,
     // middleware: 'auth',
     async fetch() {
         await this.$store.dispatch("user/getWatchlistTvShows", this.$route.query.page);
     },
-    watch: {
-        "$route.query": "$fetch"
-    },
-    scrollToTop: true,
-    fetchDelay: 1000,
     head: {
         titleTemplate: "%s Watchlist TV Shows",
         meta: [
@@ -46,7 +43,10 @@ export default {
             return this.$store.getters["user/watchlistTvShows"];
         }
     },
-    components: { TVShows }
+    watch: {
+        "$route.query": "$fetch"
+    },
+    fetchDelay: 1000
 }
 </script>
 

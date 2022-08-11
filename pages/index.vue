@@ -29,13 +29,13 @@ import TVShows from "../components/tv/TVShows.vue";
 export default {
     name: "IndexPage",
     components: { Movies, TVShows },
+
+    scrollToTop: true,
    
     async fetch() {
         await this.$store.dispatch("movies/getNowPlaying");
         await this.$store.dispatch("tv/getAiringToday");
     },
-
-    scrollToTop: true,
     fetchDelay: 1000,
 
     head() {

@@ -8,7 +8,7 @@
       <div v-if="popular.hasOwnProperty('results')" class="my-5 mx-2">
         <h2 class="text-light my-5">Popular TV Shows</h2>
         <TVShows :shows="popular.results"/>
-        <Pagination class="my-5" pageName='tv-popular' :page="$route.query.page" :totalPages="popular.total_pages" />
+        <Pagination class="my-5" page-name='tv-popular' :page="$route.query.page" :total-pages="popular.total_pages" />
       </div>
 
     </div>
@@ -20,16 +20,12 @@ import TVShows from "../../components/tv/TVShows.vue";
 
 export default {
     name: "TVPopular",
+    components: { TVShows },
+    
+    scrollToTop: true,
     async fetch() {
         await this.$store.dispatch("tv/getPopular", this.$route.query.page);
     },
-    
-    watch: {
-        '$route.query': '$fetch'
-    },
-    
-    scrollToTop: true,
-    fetchDelay: 1000,
     head() {
         return {
             title: "Movie App - Popular TV Shows",
@@ -52,7 +48,11 @@ export default {
             return this.$store.getters["tv/popular"];
         },
     },
-    components: { TVShows }
+    
+    watch: {
+        '$route.query': '$fetch'
+    },
+    fetchDelay: 1000
 }
 </script>
 

@@ -8,7 +8,7 @@
       <div v-if="topRated.hasOwnProperty('results')" class="my-5 mx-2">
         <h2 class="text-light my-5">Top Rated TV Shows</h2>
         <TVShows :shows="topRated.results"/>
-        <Pagination class="my-5" pageName='tv-top-rated' :page="$route.query.page" :totalPages="topRated.total_pages" />
+        <Pagination class="my-5" page-name='tv-top-rated' :page="$route.query.page" :total-pages="topRated.total_pages" />
       </div>
 
     </div>
@@ -20,16 +20,12 @@ import TVShows from "../../components/tv/TVShows.vue";
 
 export default {
     name: "TVTopRated",
+    components: { TVShows },
+    
+    scrollToTop: true,
     async fetch() {
         await this.$store.dispatch("tv/getTopRated", this.$route.query.page);
     },
-
-    watch: {
-        '$route.query': '$fetch'
-    },
-    
-    scrollToTop: true,
-    fetchDelay: 1000,
     
     head() {
         return {
@@ -53,7 +49,11 @@ export default {
             return this.$store.getters["tv/topRated"];
         },
     },
-    components: { TVShows }
+
+    watch: {
+        '$route.query': '$fetch'
+    },
+    fetchDelay: 1000
 }
 </script>
 

@@ -12,12 +12,6 @@ export default {
     layout:'default',
     middleware:'guest_user',
 
-    methods:{
-        async login(){
-            await this.$store.dispatch('user/createRequestTokenAndSession')
-        },
-    },
-
     head:{
         titleTemplate: '%s Login',
         meta: [
@@ -32,6 +26,12 @@ export default {
                 content: "authentication, auth, login, register",
             },
         ]
+    },
+
+    methods:{
+        async login(){
+            await this.$store.dispatch('user/createRequestTokenAndSession')
+        },
     },
 }
 </script>

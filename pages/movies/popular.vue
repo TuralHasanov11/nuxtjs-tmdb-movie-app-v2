@@ -8,7 +8,7 @@
       <div v-if="moviesPopular.hasOwnProperty('results')" class="my-5 mx-2">
         <h2 class="text-light my-5">Popular Movies Now</h2>
         <Movies :movies="moviesPopular.results"/>
-        <Pagination class="my-5" pageName='movies-popular' :page="$route.query.page" :totalPages="moviesPopular.total_pages" />
+        <Pagination class="my-5" page-name='movies-popular' :page="$route.query.page" :total-pages="moviesPopular.total_pages" />
       </div>
 
     </div>
@@ -20,17 +20,11 @@
 export default {
     name: "MoviesPopularPage",
 
+    scrollToTop: true,
+
     async fetch() {
         await this.$store.dispatch("movies/getPopular", this.$route.query.page)
     },
-    
-    watch: {
-        '$route.query': '$fetch'
-    },
-
-    scrollToTop: true,
-
-    fetchDelay: 1000,
 
     head() {
         return {
@@ -54,6 +48,12 @@ export default {
             return this.$store.getters["movies/popular"];
         },
     },
+    
+    watch: {
+        '$route.query': '$fetch'
+    },
+
+    fetchDelay: 1000,
 }
 </script>
 

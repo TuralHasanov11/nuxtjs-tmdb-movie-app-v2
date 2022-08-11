@@ -16,12 +16,12 @@
 export default {
     name: "AdminPage",
     layout:'admin',
+
+    scrollToTop: true,
    
     async fetch() {
        
     },
-
-    scrollToTop: true,
     fetchDelay: 1000,
 
     head() {

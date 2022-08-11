@@ -3,7 +3,8 @@
       <div class="container profile-area">
           <div class="profile-info">
               <div class="profile-img">
-                  <img v-if="$auth.user.avatar.tmdb.avatar_path"
+                  <img 
+                        v-if="$auth.user.avatar.tmdb.avatar_path"
                       :src="`${$auth.user.avatar.tmdb.avatar_path}`"
                       alt=""
                   />

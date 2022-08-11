@@ -7,7 +7,7 @@
                 <h2 class="text-light my-5">Your Ratings - Movies</h2>
                 
                 <Movies :movies="movies.results"/>
-                <Pagination class="my-5" pageName='profile-rated-movies' :page="$route.query.page" :totalPages="movies.total_pages" />
+                <Pagination class="my-5" page-name='profile-rated-movies' :page="$route.query.page" :total-pages="movies.total_pages" />
             </div>
 
         </div>
@@ -18,18 +18,12 @@
 export default {
     name: 'ProfileRatedMoviesPage',
     layout:'default',
+
+    scrollToTop: true,
     // middleware: 'auth',
     async fetch() {
         await this.$store.dispatch("user/getRatedMovies", this.$route.query.page)
     },
-    
-    watch: {
-        '$route.query': '$fetch'
-    },
-
-    scrollToTop: true,
-
-    fetchDelay: 1000,
 
     head:{
         titleTemplate: '%s Rated Movies',
@@ -51,7 +45,13 @@ export default {
         movies(){
             return this.$store.getters['user/ratedMovies']
         }
-    }
+    },
+    
+    watch: {
+        '$route.query': '$fetch'
+    },
+
+    fetchDelay: 1000
 }
 </script>
 

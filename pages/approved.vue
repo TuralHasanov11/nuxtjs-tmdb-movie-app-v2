@@ -11,6 +11,19 @@
 export default {
     name: "ApprovedPage",
     auth: 'guest_user',
+
+    head() {
+        return {
+            title: "Movie App - Approved",
+            meta: [
+                {
+                    hid: "description",
+                    name: "description",
+                    content: "TMDB Account Approved",
+                },
+            ]
+        };
+    },
    
     methods:{
         async verify(){
@@ -33,19 +46,6 @@ export default {
     },
 
     fetchDelay: 1000,
-
-    head() {
-        return {
-            title: "Movie App - Approved",
-            meta: [
-                {
-                    hid: "description",
-                    name: "description",
-                    content: "TMDB Account Approved",
-                },
-            ]
-        };
-    },
     
 }
 </script>

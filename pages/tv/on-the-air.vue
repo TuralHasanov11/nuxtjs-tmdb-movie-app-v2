@@ -8,7 +8,7 @@
       <div v-if="onTheAir.hasOwnProperty('results')" class="my-5 mx-2">
         <h2 class="text-light my-5">On The Air</h2>
         <TVShows :shows="onTheAir.results"/>
-        <Pagination class="my-5" pageName='tv-on-the-air' :page="$route.query.page" :totalPages="onTheAir.total_pages" />
+        <Pagination class="my-5" page-name='tv-on-the-air' :page="$route.query.page" :total-pages="onTheAir.total_pages" />
       </div>
 
     </div>
@@ -20,16 +20,12 @@ import TVShows from "../../components/tv/TVShows.vue";
 
 export default {
     name: "TVOnTheAirPage",
+    components: { TVShows },
+
+    scrollToTop: true,
     async fetch() {
         await this.$store.dispatch("tv/getOnTheAir", this.$route.query.page);
     },
-    
-    watch: {
-        '$route.query': '$fetch'
-    },
-
-    scrollToTop: true,
-    fetchDelay: 1000,
     head() {
         return {
             title: "Movie App - TV shows On The Air",
@@ -52,7 +48,11 @@ export default {
             return this.$store.getters["tv/onTheAir"];
         },
     },
-    components: { TVShows }
+    
+    watch: {
+        '$route.query': '$fetch'
+    },
+    fetchDelay: 1000
 }
 </script>
 

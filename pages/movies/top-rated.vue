@@ -8,7 +8,7 @@
       <div v-if="moviesTopRated.hasOwnProperty('results')" class="my-5 mx-2">
         <h2 class="text-light my-5">Top Rated Movies</h2>
         <Movies :movies="moviesTopRated.results"/>
-        <Pagination class="my-5" pageName='movies-top-rated' :page="$route.query.page" :totalPages="moviesTopRated.total_pages" />
+        <Pagination class="my-5" page-name='movies-top-rated' :page="$route.query.page" :total-pages="moviesTopRated.total_pages" />
       </div>
 
     </div>
@@ -19,17 +19,11 @@
 
 export default {
     name: "MoviesTopRatedPage",
+
+    scrollToTop: true,
     async fetch() {
         await this.$store.dispatch("movies/getTopRated", this.$route.query.page)
     },
-
-    watch: {
-        '$route.query': '$fetch'
-    },
-
-    scrollToTop: true,
-
-    fetchDelay: 1000,
     head() {
         return {
             title: "Movie App - Top Rated Movies",
@@ -52,6 +46,12 @@ export default {
             return this.$store.getters["movies/topRated"];
         },
     },
+
+    watch: {
+        '$route.query': '$fetch'
+    },
+
+    fetchDelay: 1000,
 }
 </script>
 
