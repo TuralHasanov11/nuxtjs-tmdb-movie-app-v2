@@ -7,10 +7,10 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div id="navbarSupportedContent" class="collapse navbar-collapse">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="moviesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a id="moviesDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Movies
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="moviesDropdown">
@@ -38,7 +38,7 @@
                 </li>
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="tvDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a id="tvDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         TV Shows
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="tvDropdown">
@@ -76,7 +76,7 @@
             <ul class="navbar-nav mb-2 mb-lg-0 mx-2">
                 <template v-if="$auth.user">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="watclistDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a id="watclistDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-bookmark-plus-fill"></i> Watchlist
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="watclistDropdown">
@@ -94,7 +94,7 @@
                     </li>
                 
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a id="userDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             {{$auth.user.username}}
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="userDropdown">
@@ -136,8 +136,8 @@
                     <button class="btn btn-danger" @click="login">Login</button>
                 </li>
             </ul>
-            <form @submit.prevent="searchData" class="d-flex">
-                <input v-model.lazy="search" @keyup.enter="searchData" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <form class="d-flex" @submit.prevent="searchData">
+                <input v-model.lazy="search" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" @keyup.enter="searchData">
                 <button class="btn btn-outline-danger" type="submit">Search</button>
             </form>
             

@@ -65,13 +65,13 @@ export default {
     font-weight: 400; 
 }
 
-.profile-area .profile-info .profile-content .movie-fact {
+.profile-area .profile-info .profile-content .post-fact {
     margin-top: 0.75em;
     font-size: 1.25em;
     line-height: 1.5;
 }
 
-.profile-area .profile-info .profile-content .movie-fact span:not(.badge) {
+.profile-area .profile-info .profile-content .post-fact span:not(.badge) {
     font-weight: 600;
 }
 
@@ -93,7 +93,7 @@ export default {
   font-size: 3em;
 }
 
-.movie-fact .badge{
+.post-fact .badge{
     margin: 0 0.25em;
     text-decoration:none;
 }

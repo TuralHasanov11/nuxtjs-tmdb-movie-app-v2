@@ -55,11 +55,11 @@ export default {
         },
         
         plusSlides(n) {
-            showSlides(this.slideIndex += n);
+          this.showSlides(this.slideIndex += n);
         },
 
         currentSlide(n) {
-            showSlides(this.slideIndex = n);
+          this.showSlides(this.slideIndex = n);
         },
 
         showSlides(n) {

@@ -31,11 +31,11 @@ export default {
     name: "SearchPage",
 
     components: { Movies, TVShows },
+    scrollToTop: true,
    
     async fetch() {
         await this.$store.dispatch("search/getSearch", this.$route.query.search);
     },
-    scrollToTop: true,
     fetchDelay: 1000,
 
     head() {

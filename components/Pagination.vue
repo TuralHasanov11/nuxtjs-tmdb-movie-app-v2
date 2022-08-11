@@ -10,7 +10,7 @@
                 </li>
             </template>
 
-            <li class="page-item" v-for="i in totalPages" :key="i">
+            <li v-for="i in totalPages" :key="i" class="page-item">
                 <NuxtLink v-if="i===parseInt(page)" class="button mx-1" :class="{'button-active':i===parseInt(page), 'button-light':i!==parseInt(page)}" :to="{name:pageName, query:{page:parseInt(page)}}">{{i}}</NuxtLink>
                 <NuxtLink v-else-if="i > parseInt(page)-3 && i < parseInt(page)+3" class="button mx-1" :class="{'button-active':i===parseInt(page), 'button-light':i!==parseInt(page)}" :to="{name:pageName, query:{page:i}}">{{i}}</NuxtLink>
             </li>
@@ -33,18 +33,15 @@ export default {
     name:'Pagination',
     props:{
         page:{
-            default:()=>{
-                return 1
-            }
+            default:1
         },
         totalPages:{
-            type:Number
+            type:Number,
+            default: 1
         },
         pageName:{
             type:String,
-            default:()=>{
-                return ''
-            }
+            default:() => ''
         }
     }
 }

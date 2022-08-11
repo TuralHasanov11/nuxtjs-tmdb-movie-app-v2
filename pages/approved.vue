@@ -27,21 +27,18 @@ export default {
    
     methods:{
         async verify(){
-                const {data} = await this.$auth.loginWith('customStrategy', { data: {request_token:localStorage.getItem('tmdb_request_token')} })
-                window.localStorage.getItem('account_id', data.account_id)
-                window.localStorage.getItem('access_token', data.access_token)
-                window.localStorage.removeItem('tmdb_request_token')
-                if(data.success){
-                    const sessionData = await this.$axios.$post(`authentication/session/convert/4?api_key=${this.$store.state.apiKey}`,{
-                        access_token: data.access_token,
-                    })
-                    this.$auth.$storage.setLocalStorage('tmdb_session_id', sessionData.session_id)
-                    localStorage.setItem('tmdb_session_id', sessionData.session_id)
-                    window.location.replace('/')
-                }
-
-              
-               
+            const {data} = await this.$auth.loginWith('customStrategy', { data: {request_token:localStorage.getItem('tmdb_request_token')} })
+            window.localStorage.getItem('account_id', data.account_id)
+            window.localStorage.getItem('access_token', data.access_token)
+            window.localStorage.removeItem('tmdb_request_token')
+            if(data.success){
+                const sessionData = await this.$axios.$post(`authentication/session/convert/4?api_key=${this.$store.state.apiKey}`,{
+                    access_token: data.access_token,
+                })
+                this.$auth.$storage.setLocalStorage('tmdb_session_id', sessionData.session_id)
+                localStorage.setItem('tmdb_session_id', sessionData.session_id)
+                window.location.replace('/')
+            }  
         }
     },
 
