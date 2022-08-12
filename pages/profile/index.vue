@@ -43,7 +43,7 @@ export default {
   flex-direction: column;
   justify-content: start; 
   align-items: center;
-    padding: 2em 1em;
+  padding: 3em 1em;
 }
 
 .profile-area  .button {
@@ -61,7 +61,7 @@ export default {
 }
 
 .profile-area .profile-info .profile-content h1 {
-    font-size: 3.5em;
+    font-size: 2.75em;
     font-weight: 400; 
 }
 
@@ -85,12 +85,12 @@ export default {
 
 
 .profile-area .profile-info .profile-img img{
-  width: 3em;
-  height: 3em;
+  width: 2.75em;
+  height: 2.75em;
 }
 
 .profile-area .profile-info .profile-img i{
-  font-size: 3em;
+  font-size: 2.75em;
 }
 
 .post-fact .badge{
@@ -105,8 +105,8 @@ export default {
   } 
 
   .profile-area .profile-info .profile-img img{
-      max-width: 3em;
-      max-height: 3em;
+      max-width: 2.75em;
+      max-height: 2.75em;
   }
 }
 

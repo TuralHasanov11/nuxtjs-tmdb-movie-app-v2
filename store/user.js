@@ -6,8 +6,17 @@ export const state = () => ({
     watchlistTvShows:{},
     ratedMovies:{},
     ratedTvShows:{},
-    // {"avatar":{"gravatar":{"hash":"8f9e6d35026566e5e87646f5e6b5120d"},"tmdb":{"avatar_path":null}},"id":11815292,"iso_639_1":"en","iso_3166_1":"AZ","name":"","include_adult":false,"username":"turalhasanov"}
 })
+
+export const getters = {
+    profile:s=>s.profile,
+    watchlistMovies:s=>s.watchlistMovies,
+    watchlistTvShows:s=>s.watchlistTvShows,
+    ratedMovies:s=>s.ratedMovies,
+    ratedTvShows:s=>s.ratedTvShows,
+    watchlistMoviesIds: s => s.watchlistMovies.results?s.watchlistMovies.results.map(el => el.id):[],
+    watchlistTvShowsIds: s => s.watchlistTvShows.results?s.watchlistTvShows.results.map(el => el.id):[]
+}
   
 export const mutations = {
 
@@ -16,6 +25,7 @@ export const mutations = {
     },
 
     setWatchlistMovies(state, data){
+        console.log(1)
         state.watchlistMovies = data
     },
 
@@ -26,10 +36,8 @@ export const mutations = {
     addToWatchlist(state, payload){
         if(payload.type === 'tv'){
             state.watchlistTvShows.results.push(payload.media)
-            state.watchlistTvShows.results.pop()
         }else if(payload.type === 'movie'){
             state.watchlistMovies.results.push(payload.media)
-            state.watchlistMovies.results.pop()
         }
     },
 
@@ -51,7 +59,7 @@ export const actions = {
         },{
             "headers": {
                 "content-type": "application/json;charset=utf-8",
-                "authorization": `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0Yjc5NTgzNWUxNzNmOTNiMDE5ODdiMjc1Nzk4MGRhNSIsInN1YiI6IjYxZWU5OTFkOWU0NTg2MDEwNzMwN2FhMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.OGiw669SoQAu6kK8N43Vp3H0Zzo_rFpax83gX9KZPlQ`
+                "authorization": `Bearer ${rootState.accessToken}`
             },
         })
         localStorage.setItem('tmdb_request_token', requestToken.request_token)
@@ -94,14 +102,15 @@ export const actions = {
 
     async addToWatchlist({state, commit, rootState }, media, watchlist=true, type='movie'){ // type = movie, tv
         try {
-            const res = await this.$axios.$post(`account/${this.$auth.user.id}/watchlist?api_key=${rootState.apiKey}`,{
+            const res = await this.$axios.$post(`account/${this.$auth.user.id}/watchlist?api_key=${rootState.apiKey}&session_id=${this.$auth.$storage.getLocalStorage('tmdb_session_id')}`,{
                 media_type: type,
                 media_id: media.id,
                 watchlist
             })
 
-            console.log(res)
-            commit('addToWatchlist', {media, type})
+            if(res.status_code === 1 && res.success === true){
+                commit('addToWatchlist', {media, type})
+            }
 
         } catch (error) {
             throw new Error('Failed!')
@@ -109,27 +118,13 @@ export const actions = {
         
     },
 
-    async getRatedMovies({state, commit, rootState }, page=1, sortBy='created_at.desc'){
+    async getRatedMovies({commit, rootState }, page=1, sortBy='created_at.desc'){
         const res = await this.$axios.$get(`account/${this.$auth.user.id}/rated/movies?api_key=${rootState.apiKey}&session_id=${this.$auth.$storage.getLocalStorage('tmdb_session_id')}&language=en-US&sort_by=${sortBy}&page=${page}`)
         commit('setRatedMovies', res)
     },
 
-    async getRatedTvShows({state, commit, rootState }, page=1, sortBy='created_at.desc'){
+    async getRatedTvShows({commit, rootState }, page=1, sortBy='created_at.desc'){
         const res = await this.$axios.$get(`account/${this.$auth.user.id}/rated/tv?api_key=${rootState.apiKey}&session_id=${this.$auth.$storage.getLocalStorage('tmdb_session_id')}&language=en-US&sort_by=${sortBy}&page=${page}`)
         commit('setRatedTvShows', res)
     },
-}
-
-export const getters = {
-    profile:s=>s.profile,
-    watchlistMovies:s=>s.watchlistMovies,
-    watchlistTvShows:s=>s.watchlistTvShows,
-    ratedMovies:s=>s.ratedMovies,
-    ratedTvShows:s=>s.ratedTvShows,
-    watchlistMoviesIds(s){
-        return s.watchlistMovies.results?s.watchlistMovies.results.map(el => el.id):[]
-    },
-    watchlistTvShowsIds(s){
-        return s.watchlistTvShows.results?s.watchlistTvShows.results.map(el => el.id):[]
-    }
 }

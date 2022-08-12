@@ -3,10 +3,10 @@
     <div v-for="(movie,index) in movies" v-show="movie.poster_path" :key="index" class="post">
         <div class="post-img">
             <img :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" alt="">
-            <p class="review">{{movie.vote_average}}</p>
+            <p class="review">{{movie.vote_average.toFixed(1)}}</p>
             <span class="user-post-info">
-              <span class="watchlist-toggle" :class="{active:watchlistMoviesIds.includes(movie.id)}" data-bs-toggle="tooltip" data-bs-placement="top" title="Add to Watchlist" @click="watchlistToggle(movie.id)"><i class="bi bi-plus-lg"></i></span>
-              <span v-if="movie.rating" style="border-radius: 0 0 0 1em;" class="rating-toggle border-top border-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Your rating"><span class="mr-1">{{movie.rating}}</span> <i class="bi bi-star-fill"></i></span>
+              <span v-if="$auth.user" class="watchlist-toggle" :class="{active:watchlistMoviesIds.includes(movie.id)}" data-bs-toggle="tooltip" data-bs-placement="top" title="Add to Watchlist" @click="watchlistToggle(movie)"><i class="bi bi-plus-lg"></i></span>
+              <span v-if="movie.rating" style="border-radius: 0 0 0 1em;" class="rating-toggle border-top border-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Your rating"><span class="mx-1">{{movie.rating}}</span> <span><i class="bi bi-star-fill"></i></span></span>
             </span>
             <p v-if="movie.overview!==''" class="overview">{{movie.overview}}</p>
         </div>
@@ -45,7 +45,7 @@ export default {
 
     computed:{
       watchlistMoviesIds(){
-         return this.$store.getters["user/watchlistMoviesIds"];
+          return this.$store.getters['user/watchlistMoviesIds']
       }
     },
 
