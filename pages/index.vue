@@ -33,8 +33,10 @@ export default {
     scrollToTop: true,
    
     async fetch() {
-        await this.$store.dispatch("movies/getNowPlaying");
-        await this.$store.dispatch("tv/getAiringToday");
+      await Promise.all([
+        await this.$store.dispatch("movies/getNowPlaying"),
+        await this.$store.dispatch("tv/getAiringToday"),
+      ])
     },
     fetchDelay: 1000,
 

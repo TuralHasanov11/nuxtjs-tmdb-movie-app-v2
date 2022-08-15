@@ -13,10 +13,9 @@ export default class CustomScheme extends LocalScheme {
     }
 
     return await this.$auth.requestWith(this.name, endpoint, {...this.options.endpoints.user, url:`${this.options.endpoints.user.url}&session_id=${localStorage.getItem('tmdb_session_id')}`})
-      .then((response) => {
+      .then(response => {
 
         this.$auth.setUser(response.data)
-
         return response
       })
       .catch((error) => {
